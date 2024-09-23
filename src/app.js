@@ -24,3 +24,10 @@ dotenv.config();
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('Conectado no MongoDB'))
 .catch((err) => console.log(err));
+
+//autenticação
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
+
+const userRoutes = require('./routes/user');
+app.use('/api/user', userRoutes);
