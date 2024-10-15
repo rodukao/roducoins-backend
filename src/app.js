@@ -31,3 +31,9 @@ app.use('/api/auth', authRoutes);
 
 const userRoutes = require('./routes/user');
 app.use('/api/user', userRoutes);
+
+const adRoutes = require('./routes/ad');
+app.use('/api/ads', adRoutes);
+
+const gameRoutes = require('./routes/game');
+app.use('/api/game', gameRoutes); // Usar as rotas do jogo
