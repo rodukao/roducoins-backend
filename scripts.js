@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Word = require('./src/models/Word'); // Importar o modelo que criamos
 
 // Conectar ao MongoDB (utilize a mesma string de conexão que usa no seu projeto)
-mongoose.connect('mongodb://localhost:27017/roducoinsdb', {
+mongoose.connect('mongodb+srv://rodukao:Duke0910Doida@cluster0.3vzrq3z.mongodb.net/roducoins', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
