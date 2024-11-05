@@ -51,7 +51,7 @@ router.post('/start',authMiddleware, async (req, res) => {
         gameId: game._id,
         gameData: {
           attemptsLeft: game.attemptsLeft,
-          totalAttemps: game.totalAttempts,
+          totalAttempts: game.totalAttempts,
           correctLetters: game.correctLetters,
           guessedLetters: game.guessedLetters,
           bet: game.bet,
