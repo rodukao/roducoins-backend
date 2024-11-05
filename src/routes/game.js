@@ -38,6 +38,7 @@ router.post('/start',authMiddleware, async (req, res) => {
         userId: req.userId,
         word: word,
         attemptsLeft: attempts,
+        totalAttempts: attempts,
         bet: bet,
         guessedLetters: [],
         correctLetters: Array(word.length).fill(null),
@@ -50,6 +51,7 @@ router.post('/start',authMiddleware, async (req, res) => {
         gameId: game._id,
         gameData: {
           attemptsLeft: game.attemptsLeft,
+          totalAttemps: game.totalAttempts,
           correctLetters: game.correctLetters,
           guessedLetters: game.guessedLetters,
           bet: game.bet,
@@ -142,6 +144,7 @@ router.post('/guess', authMiddleware, async (req, res) => {
             : 'Você perdeu! Tente novamente.',
         gameData: {
           attemptsLeft: game.attemptsLeft,
+          totalAttempts: game.totalAttempts,
           correctLetters: game.correctLetters,
           guessedLetters: game.guessedLetters,
           wordGuessed,
@@ -157,6 +160,7 @@ router.post('/guess', authMiddleware, async (req, res) => {
         message: 'Adivinhe outra letra!',
         gameData: {
           attemptsLeft: game.attemptsLeft,
+          totalAttempts: game.totalAttempts,
           correctLetters: game.correctLetters,
           guessedLetters: game.guessedLetters,
           gameOver: false,

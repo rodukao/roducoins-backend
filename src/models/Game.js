@@ -4,6 +4,7 @@ const gameSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     word: {type: String, required: true},
     attemptsLeft: {type: Number, required: true},
+    totalAttempts: {type: Number, required: true},
     bet: {type: Number, required: true},
     guessedLetters: {type: [String], default: []},
     correctLetters: {type: [String], required: true},
