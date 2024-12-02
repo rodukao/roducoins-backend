@@ -150,6 +150,7 @@ router.post('/guess', authMiddleware, async (req, res) => {
           wordGuessed,
           gameOver: true,
           reward,
+          bet: game.bet,
         },
       });
     } else {
@@ -171,6 +172,49 @@ router.post('/guess', authMiddleware, async (req, res) => {
   } catch (error) {
     console.error('Erro ao processar a adivinhação:', error);
     res.status(500).json({ error: 'Erro ao processar a adivinhação.' });
+  }
+});
+
+router.post('/giveup', authMiddleware, async (req, res) => {
+  const {gameId} = req.body;
+
+  try{
+    const game = await Game.findById(gameId);
+
+    if(!game){
+      return res.status(404).json({error: 'Jogo não encontrado.'});
+    }
+
+    if(game.userId.toString() !== req.userId){
+      return res.status(403).json({error: 'Acesso negado.'});
+    }
+
+    if(game.status !== 'active'){
+      return res.status(400).json({error: 'O jogo já foi finalizado.'});
+    }
+
+    game.status = 'lost';
+    game.attemptsLeft = 0;
+    game.gameOver = true;
+    await game.save();
+
+    res.json({
+      message: 'Você desistiu do jogo.',
+      gameData: {
+        attemptsLeft: game.attemptsLeft,
+        totalAttempts: game.totalAttempts,
+        correctLetters: game.correctLetters,
+        guessedLetters: game.guessedLetters,
+        gameOver: true,
+        wordGuessed: false,
+        reward: 0,
+        bet: game.bet,
+      },
+    });
+
+  } catch(error){
+    console.error('Erro ao desistir do jogo:', error);
+    res.status(500).json({error: 'Erro ao desistir do jogo.'});
   }
 });
 
