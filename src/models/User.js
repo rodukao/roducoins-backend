@@ -6,7 +6,9 @@ const UserSchema = new mongoose.Schema({
     email: {type: String, require: true, unique: true},
     password: {type: String, require: true},
     roducoins: {type: Number, default: 0},
-    createdAt: {type: Date, default: Date.now}
+    createdAt: {type: Date, default: Date.now},
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null }
 });
 
 //Middleware para hash da senha antes de salvar
