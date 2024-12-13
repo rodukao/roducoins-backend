@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://roducoins.com.br/'],
+    origin: ['http://localhost:3000', 'https://roducoins.netlify.app', 'https://roducoins.com.br'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));
