@@ -11,6 +11,14 @@ router.post('/start',authMiddleware, async (req, res) => {
 
   console.log(length, attempts, bet);
 
+  function normalizeWord(word) {
+    // Normaliza a palavra para o form NFD (decompõe acentos)
+    let normalized = word.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    // Substituir 'ç' por 'c'
+    normalized = normalized.replace(/ç/g, 'c').replace(/Ç/g, 'C');
+    return normalized;
+  }
+
   try {
     // Buscar uma palavra aleatória do tamanho solicitado
     const words = await Word.aggregate([
@@ -33,15 +41,19 @@ router.post('/start',authMiddleware, async (req, res) => {
       user.roducoins -= bet;
       await user.save();
 
+      const originalWord = words[0].word; // palavra do banco
+      const normalizedWord = normalizeWord(originalWord);
+
       // Criar e salvar o jogo no banco de dados
       const game = new Game({
         userId: req.userId,
-        word: word,
+        word: normalizedWord,
+        originalWord: originalWord,
         attemptsLeft: attempts,
         totalAttempts: attempts,
         bet: bet,
         guessedLetters: [],
-        correctLetters: Array(word.length).fill(null),
+        correctLetters: Array(normalizedWord.length).fill(null),
       });
 
       await game.save();
@@ -147,6 +159,7 @@ router.post('/guess', authMiddleware, async (req, res) => {
           totalAttempts: game.totalAttempts,
           correctLetters: game.correctLetters,
           guessedLetters: game.guessedLetters,
+          originalWord: game.originalWord,
           wordGuessed,
           gameOver: true,
           reward,

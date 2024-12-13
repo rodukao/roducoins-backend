@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const gameSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     word: {type: String, required: true},
+    originalWord: { type: String, required: true },
     attemptsLeft: {type: Number, required: true},
     totalAttempts: {type: Number, required: true},
     bet: {type: Number, required: true},
